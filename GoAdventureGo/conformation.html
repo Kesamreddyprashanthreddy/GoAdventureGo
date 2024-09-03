@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Completed</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+       
+
+.confirmation-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    margin: 100px auto;
+}
+
+.confirmation-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.confirmation-container p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.back-to-home {
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.back-to-home:hover {
+    color: #45a049;
+}
+
+</style>
+</head>
+<body>
+    <div class="confirmation-container">
+        <h2>Payment Confirmed</h2>
+        <p id="confirmation-message"></p>
+        <a href="index.html" class="back-to-home">Back to Home</a>
+    </div>
+
+    <!-- <script>
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentMethod = urlParams.get('method');
+
+        document.getElementById('confirmation-message').textContent = 
+            'Thank you! You have selected ' + paymentMethod + ' as your payment method.';
+    </script> -->
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking Payment</title>
+    <link rel="stylesheet" href="payment.css">
+    <style>
+        .container {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .payment-option img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="checkin">Check-in Date:</label>
+            <input type="date" class="form-control" id="checkin">
+    
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="checkout">Check-out Date:</label>
+            <input type="date" class="form-control" id="checkout">
+          </div>
+        </div>
+        
+      </div>
+
+
+    <div class="payment-container">
+        <h2>Select Your Payment Method</h2>
+        <form action="/submit-payment" method="POST">
+            <div class="payment-option">
+                <input type="radio" id="credit-card" name="payment-method" value="credit-card" checked>
+                <label for="credit-card">
+                    <img src="https://th.bing.com/th/id/OIP._rkghD81mKbNhrmV_xafQwAAAA?w=360&h=241&rs=1&pid=ImgDetMain alt="Credit Card">
+                    Credit Card
+                </label>
+            </div>
+
+            <div class="payment-option">
+                <input type="radio" id="paypal" name="payment-method" value="paypal">
+                <label for="paypal">
+                    <img src="https://logodownload.org/wp-content/uploads/2014/10/paypal-logo-0.png" alt="PayPal">
+                    PayPal
+                </label>
+            </div>
+
+            <div class="payment-option">
+                <input type="radio" id="bank-transfer" name="payment-method" value="bank-transfer">
+                <label for="bank-transfer">
+                    <img src="https://cdn4.vectorstock.com/i/1000x1000/25/28/bank-transfer-icon-simple-element-from-banking-vector-34052528.jpg" alt="Bank Transfer">
+                    Bank Transfer
+                </label>
+            </div>
+            
+            <!-- <a href="conformation.html"><button type="submit" class="pay-now-btn" >Pay Now</button></a> -->
+            <a href="conformation.html" class="btn btn-primary">Book Now</a>
+        </form>
+    </div>
+
+    <!-- <script src="payment.js"></script> -->
+    <!-- <script>
+        // Extract the payment method from the query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentMethod = urlParams.get('method');
+
+        // Display the payment method on the confirmation page
+        document.getElementById('conformation-message').textContent = 
+            'Thank you! You have selected ' + paymentMethod + ' as your payment method.';
+    </script> -->
+</body>
+</html>

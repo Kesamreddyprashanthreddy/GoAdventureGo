@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking - TravelMATE</title>
+    <link rel="stylesheet" href="./css/flight.css">
+</head>
+<body>
+    <!-- Main Flight Booking Content -->
+    <div class="content-container">
+        <header>
+            <h1>Book Your Flight</h1>
+            <p>Find the best flights for your next trip.</p>
+        </header>
+        <section>
+            <form id="flightBookingForm">
+                <div class="form-group">
+                    <label for="departure">Departure Location</label>
+                    <input type="text" id="departure" name="departure" placeholder="Enter city or airport" required>
+                </div>
+                <div class="form-group">
+                    <label for="arrival">Arrival Location</label>
+                    <input type="text" id="arrival" name="arrival" placeholder="Enter city or airport" required>
+                </div>
+                <div class="form-group">
+                    <label for="departure-date">Departure Date</label>
+                    <input type="date" id="departure-date" name="departure-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="return-date">Return Date (optional)</label>
+                    <input type="date" id="return-date" name="return-date">
+                </div>
+                <div class="form-group">
+                    <label for="passengers">Number of Passengers</label>
+                    <select id="passengers" name="passengers" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="class">Class</label>
+                    <select id="class" name="class" required>
+                        <option value="economy">Economy</option>
+                        <option value="business">Business</option>
+                        <option value="first">First Class</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Search Flights</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
