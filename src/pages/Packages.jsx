@@ -39,7 +39,7 @@ const PackageCard = React.memo(({ pkg, index, onToggleFavorite, onBooking, favor
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         loading="lazy"
         onError={(e) => {
-          e.target.src = 'https://via.placeholder.com/400x400/1e293b/64748b?text=Adventure+Package'
+          e.target.src = '/css/images/package.jpg'
         }}
       />
       <motion.button
@@ -123,22 +123,26 @@ const Packages = React.memo(() => {
   const [favorites, setFavorites] = useState([])
   const [showAll, setShowAll] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null)
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm)
     }, 300)
     return () => clearTimeout(timer)
   }, [searchTerm])
-  const [showFilters, setShowFilters] = useState(false)
+  const [showFilters, setShowFilters] = useState(false)
+
   useEffect(() => {
     const searchFromUrl = searchParams.get('search')
     if (searchFromUrl) {
       setSearchTerm(searchFromUrl)
-    }
+    }
+
     const timer = setTimeout(() => setIsLoading(false), 300)
     return () => clearTimeout(timer)
-  }, [searchParams])
+  }, [searchParams])
+
   const packages = useMemo(() => ({
     seas: [
       {
@@ -344,7 +348,8 @@ const Packages = React.memo(() => {
         category: 'landscapes'
       }
     ]
-  }), []) // Close useMemo for packages
+  }), []) // Close useMemo for packages
+
   const allPackages = useMemo(() => [
     ...packages.seas, 
     ...packages.mountains, 
@@ -357,19 +362,22 @@ const Packages = React.memo(() => {
       const matchesCategory = selectedCategory === 'all' || pkg.category === selectedCategory
       return matchesSearch && matchesCategory
     })
-  }, [allPackages, debouncedSearchTerm, selectedCategory])
+  }, [allPackages, debouncedSearchTerm, selectedCategory])
+
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768)
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  }, [])
+
   const displayedPackages = useMemo(() => {
     if (isMobile && !showAll && filteredPackages.length > 6) {
       return filteredPackages.slice(0, 6)
     }
     return filteredPackages
-  }, [filteredPackages, showAll, isMobile])
+  }, [filteredPackages, showAll, isMobile])
+
   const categories = useMemo(() => [
     { id: 'all', name: 'All Packages', icon: <Filter className="w-5 h-5" /> },
     { id: 'seas', name: 'Seas & Beaches', icon: <Waves className="w-5 h-5" /> },
@@ -389,9 +397,11 @@ const Packages = React.memo(() => {
       toast.error('Please login to book packages')
       navigate('/signin')
       return
-    }
+    }
+
     navigate(`/quick-payment?package=${pkg.id}`)
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, navigate])
+
   const PackageCard = React.memo(({ pkg, index, onToggleFavorite, onBooking, favorites }) => (
     <motion.div
       key={pkg.id}
@@ -408,7 +418,7 @@ const Packages = React.memo(() => {
           alt={pkg.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" // Reduced duration
           onError={(e) => {
-            e.target.src = 'https://via.placeholder.com/400x400/1e293b/64748b?text=Adventure+Package'
+            e.target.src = '/css/images/package.jpg'
           }}
         />
         {}

@@ -25,7 +25,8 @@ import {
 } from 'lucide-react'
 import PageBackground from '../components/PageBackground'
 import LoadingSpinner from '../components/LoadingSpinner'
-import ErrorMessage from '../components/ErrorMessage'
+import ErrorMessage from '../components/ErrorMessage'
+
 const FlightCard = React.memo(({ flight, index, onBooking, amenityIcons }) => (
   <motion.div
     key={flight.id}
@@ -114,7 +115,8 @@ const Flight = React.memo(() => {
   const [showFilters, setShowFilters] = useState(false)
   const [error, setError] = useState(null)
   const [favorites, setFavorites] = useState([])
-  const [selectedFilter, setSelectedFilter] = useState('all')
+  const [selectedFilter, setSelectedFilter] = useState('all')
+
   const airports = useMemo(() => [
     { code: 'DEL', name: 'New Delhi', city: 'Delhi' },
     { code: 'BOM', name: 'Mumbai', city: 'Mumbai' },
@@ -182,7 +184,8 @@ const Flight = React.memo(() => {
       toast.error('Please fill in all required fields.')
       return
     }
-    setIsLoading(true)
+    setIsLoading(true)
+
     setTimeout(() => {
       setSearchResults(sampleFlights)
       setIsLoading(false)
@@ -195,7 +198,8 @@ const Flight = React.memo(() => {
       navigate('/signin')
       return
     }
-    try {
+    try {
+
       const flightBookingData = {
         id: `flight-${flight.flightNumber}`,
         name: `${flight.airline} ${flight.flightNumber}`,
@@ -205,7 +209,7 @@ const Flight = React.memo(() => {
         category: 'flights',
         from: formData.departure,
         to: formData.arrival,
-        image: 'https://via.placeholder.com/400x300/1e293b/64748b?text=Flight+Booking',
+        image: '/css/images/package.jpg',
         description: `${flight.airline} flight from ${formData.departure} to ${formData.arrival}`,
         rating: 4.5,
         dates: {
@@ -218,7 +222,8 @@ const Flight = React.memo(() => {
         flightNumber: flight.flightNumber,
         departureTime: flight.departure.time,
         arrivalTime: flight.arrival.time
-      }
+      }
+
       localStorage.setItem('tempFlightBooking', JSON.stringify(flightBookingData))
       navigate(`/quick-payment?type=flight&id=${flight.flightNumber}`)
     } catch (error) {
@@ -226,7 +231,8 @@ const Flight = React.memo(() => {
       toast.error('Failed to prepare booking. Please try again.')
     }
   }, [isAuthenticated, navigate, formData])
-  useEffect(() => {
+  useEffect(() => {
+
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(today.getDate() + 1)

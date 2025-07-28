@@ -39,7 +39,8 @@ const QuickPayment = () => {
     upiId: '',
     phoneNumber: ''
   })
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({})
+
   const packages = {
     seas: [
       {
@@ -156,7 +157,8 @@ const QuickPayment = () => {
     const packageId = searchParams.get('package')
     const bookingType = searchParams.get('type')
     const itemId = searchParams.get('id')
-    if (packageId) {
+    if (packageId) {
+
       const allPackages = [...packages.seas, ...packages.mountains, ...packages.landscapes]
       const pkg = allPackages.find(p => p.id === packageId)
       if (pkg) {
@@ -165,7 +167,8 @@ const QuickPayment = () => {
         toast.error('Package not found')
         navigate('/packages')
       }
-    } else if (bookingType === 'hotel') {
+    } else if (bookingType === 'hotel') {
+
       const hotelData = localStorage.getItem('tempHotelBooking')
       if (hotelData) {
         setSelectedPackage(JSON.parse(hotelData))
@@ -173,7 +176,8 @@ const QuickPayment = () => {
         toast.error('Hotel booking data not found')
         navigate('/hotels')
       }
-    } else if (bookingType === 'flight') {
+    } else if (bookingType === 'flight') {
+
       const flightData = localStorage.getItem('tempFlightBooking')
       if (flightData) {
         setSelectedPackage(JSON.parse(flightData))
@@ -215,25 +219,32 @@ const QuickPayment = () => {
   const handlePayment = async () => {
     if (!validatePaymentData()) return
     setIsProcessing(true)
-    try {
-      await new Promise(resolve => setTimeout(resolve, 3000))
+    try {
+
+      await new Promise(resolve => setTimeout(resolve, 3000))
+
       const bookingType = searchParams.get('type')
       let booking
-      if (bookingType === 'hotel' || bookingType === 'flight') {
-        booking = bookingService.createBooking(selectedPackage)
+      if (bookingType === 'hotel' || bookingType === 'flight') {
+
+        booking = bookingService.createBooking(selectedPackage)
+
         localStorage.removeItem('tempHotelBooking')
         localStorage.removeItem('tempFlightBooking')
-      } else {
+      } else {
+
         booking = bookingService.createBooking(selectedPackage)
       }
-      setCurrentStep(3) // Success step
+      setCurrentStep(3) // Success step
+
       const bookingTypeText = bookingType === 'hotel' ? 'Hotel' : 
                              bookingType === 'flight' ? 'Flight' : 'Package'
       toast.success(`🎉 ${bookingTypeText} Booking Successful! 
 Booking ID: ${booking.bookingId}
 ${bookingTypeText}: ${selectedPackage.name}
 Amount Paid: ₹${Math.round(selectedPackage.price * 1.18).toLocaleString()}
-Your ${bookingTypeText.toLowerCase()} is confirmed!`)
+Your ${bookingTypeText.toLowerCase()} is confirmed!`)
+
       setTimeout(() => {
         navigate('/bookings')
       }, 3000)
@@ -362,7 +373,7 @@ Your ${bookingTypeText.toLowerCase()} is confirmed!`)
                     alt={selectedPackage.name}
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.target.src = 'https://via.placeholder.com/400x300/1e293b/64748b?text=Adventure+Package'
+                      e.target.src = '/css/images/package.jpg'
                     }}
                   />
                   <div className="absolute top-4 left-4 bg-blue-500/90 text-white px-3 py-1 rounded-full text-sm font-semibold">

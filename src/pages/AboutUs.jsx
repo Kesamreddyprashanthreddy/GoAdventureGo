@@ -17,7 +17,8 @@ import LoadingSpinner from '../components/LoadingSpinner'
 import PageBackground from '../components/PageBackground'
 const AboutUs = () => {
   const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
+  useEffect(() => {
+
     setTimeout(() => setIsLoading(false), 1000)
   }, [])
   const features = [
@@ -94,7 +95,7 @@ const AboutUs = () => {
                 alt="Team"
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/200x200/1e293b/64748b?text=Team'
+                  e.target.src = '/css/images/logo.png'
                 }}
               />
             </div>

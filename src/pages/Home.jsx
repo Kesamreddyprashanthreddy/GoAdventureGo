@@ -21,19 +21,25 @@ const Home = () => {
     '/css/images/paris.jpg',
     '/css/images/swit.jpg',
     '/css/images/aurora.jpg'
-  ]
-  const allDestinations = [
+  ]
+
+  const allDestinations = [
+
     { name: 'Andaman and Nicobar', category: 'Beach', country: 'India', keywords: ['beach', 'island', 'tropical', 'diving'] },
     { name: 'Great Barrier Reef', category: 'Beach', country: 'Australia', keywords: ['reef', 'coral', 'diving', 'marine'] },
-    { name: 'Blue Hole Caves', category: 'Adventure', country: 'Belize', keywords: ['cave', 'diving', 'underwater', 'mystery'] },
+    { name: 'Blue Hole Caves', category: 'Adventure', country: 'Belize', keywords: ['cave', 'diving', 'underwater', 'mystery'] },
+
     { name: 'Mount Fuji', category: 'Mountain', country: 'Japan', keywords: ['mountain', 'volcano', 'hiking', 'sacred'] },
     { name: 'Himalayas', category: 'Mountain', country: 'Nepal', keywords: ['mountain', 'everest', 'trekking', 'adventure'] },
-    { name: 'Iceland Peaks', category: 'Mountain', country: 'Iceland', keywords: ['glacier', 'volcano', 'northern lights', 'ice'] },
+    { name: 'Iceland Peaks', category: 'Mountain', country: 'Iceland', keywords: ['glacier', 'volcano', 'northern lights', 'ice'] },
+
     { name: 'Paris', category: 'City', country: 'France', keywords: ['city', 'romance', 'art', 'culture', 'eiffel tower'] },
     { name: 'Swiss Alps', category: 'Mountain', country: 'Switzerland', keywords: ['alps', 'skiing', 'chocolate', 'scenic'] },
-    { name: 'Amazon Rainforest', category: 'Nature', country: 'Brazil', keywords: ['jungle', 'wildlife', 'adventure', 'river'] },
+    { name: 'Amazon Rainforest', category: 'Nature', country: 'Brazil', keywords: ['jungle', 'wildlife', 'adventure', 'river'] },
+
     { name: 'Antelope Canyon', category: 'Desert', country: 'USA', keywords: ['desert', 'canyon', 'photography', 'rock formations'] },
-    { name: 'Azores Islands', category: 'Island', country: 'Portugal', keywords: ['volcanic', 'island', 'hot springs', 'nature'] },
+    { name: 'Azores Islands', category: 'Island', country: 'Portugal', keywords: ['volcanic', 'island', 'hot springs', 'nature'] },
+
     { name: 'Bali', category: 'Beach', country: 'Indonesia', keywords: ['tropical', 'beach', 'culture', 'temple'] },
     { name: 'Maldives', category: 'Beach', country: 'Maldives', keywords: ['luxury', 'overwater', 'honeymoon', 'diving'] },
     { name: 'Dubai', category: 'City', country: 'UAE', keywords: ['luxury', 'desert', 'modern', 'shopping'] },
@@ -54,19 +60,22 @@ const Home = () => {
     { icon: Users, title: 'Expert Guides', description: 'Professional local guides everywhere' },
     { icon: Star, title: '5-Star Experience', description: 'Premium quality guaranteed' },
     { icon: Zap, title: 'Instant Booking', description: 'Book your trip in seconds' }
-  ]
+  ]
+
   useEffect(() => {
     const saved = localStorage.getItem('recentSearches')
     if (saved) {
       setRecentSearches(JSON.parse(saved))
     }
-  }, [])
+  }, [])
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)
     }, 4000)
     return () => clearInterval(interval)
-  }, [])
+  }, [])
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -81,12 +90,15 @@ const Home = () => {
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  }, [])
+
   const fuzzySearch = (query, text) => {
     if (!query) return false
     query = query.toLowerCase()
-    text = text.toLowerCase()
-    if (text.includes(query)) return true
+    text = text.toLowerCase()
+
+    if (text.includes(query)) return true
+
     let queryIndex = 0
     for (let i = 0; i < text.length && queryIndex < query.length; i++) {
       if (text[i] === query[queryIndex]) {
@@ -94,7 +106,8 @@ const Home = () => {
       }
     }
     return queryIndex === query.length
-  }
+  }
+
   const fetchPackages = async (searchTerm = '') => {
     try {
       setLoading(true)
@@ -106,22 +119,27 @@ const Home = () => {
       })
       setPackages(response.data.packages || response.data)
     } catch (error) {
-      console.error('Error fetching packages:', error)
+      console.error('Error fetching packages:', error)
+
       setPackages([])
     } finally {
       setLoading(false)
     }
-  }
-  useEffect(() => {
+  }
+
+  useEffect(() => {
+
     fetchPackages()
-  }, [])
+  }, [])
+
   useEffect(() => {
     if (!searchQuery.trim()) {
       setFilteredSuggestions([])
       return
     }
     const query = searchQuery.toLowerCase().trim()
-    let suggestions = []
+    let suggestions = []
+
     allDestinations.forEach(dest => {
       const score = calculateRelevanceScore(dest, query)
       if (score > 0) {
@@ -132,7 +150,8 @@ const Home = () => {
           searchText: dest.name
         })
       }
-    })
+    })
+
     packages.forEach(pkg => {
       let score = 0
       const title = pkg.title?.toLowerCase() || ''
@@ -154,35 +173,44 @@ const Home = () => {
           score
         })
       }
-    })
+    })
+
     suggestions = suggestions
       .sort((a, b) => b.score - a.score)
       .filter((suggestion, index, self) => 
         index === self.findIndex(s => s.searchText.toLowerCase() === suggestion.searchText.toLowerCase())
-      )
+      )
+
     setFilteredSuggestions(suggestions.slice(0, 8))
-  }, [searchQuery, packages])
+  }, [searchQuery, packages])
+
   const calculateRelevanceScore = (destination, query) => {
     let score = 0
     const name = destination.name.toLowerCase()
     const category = destination.category.toLowerCase()
     const country = destination.country.toLowerCase()
-    const keywords = destination.keywords.join(' ').toLowerCase()
+    const keywords = destination.keywords.join(' ').toLowerCase()
+
     if (name === query) score += 100
     else if (name.startsWith(query)) score += 80
-    else if (name.includes(query)) score += 60
-    if (category.includes(query)) score += 40
+    else if (name.includes(query)) score += 60
+
+    if (category.includes(query)) score += 40
+
     if (country === query) score += 70
-    else if (country.includes(query)) score += 50
+    else if (country.includes(query)) score += 50
+
     destination.keywords.forEach(keyword => {
       if (keyword.toLowerCase() === query) score += 30
       else if (keyword.toLowerCase().includes(query)) score += 20
-    })
+    })
+
     if (score === 0 && (fuzzySearch(query, name) || fuzzySearch(query, keywords))) {
       score += 10
     }
     return score
-  }
+  }
+
   const saveSearch = (searchTerm) => {
     if (!searchTerm.trim()) return
     const newRecentSearches = [
@@ -191,29 +219,35 @@ const Home = () => {
     ].slice(0, 5) // Keep only 5 recent searches
     setRecentSearches(newRecentSearches)
     localStorage.setItem('recentSearches', JSON.stringify(newRecentSearches))
-  }
+  }
+
   const clearRecentSearches = () => {
     setRecentSearches([])
     localStorage.removeItem('recentSearches')
-  }
+  }
+
   const handleSearch = (e, searchTerm = null) => {
     e?.preventDefault()
     const finalSearchTerm = searchTerm || searchQuery.trim()
     if (finalSearchTerm) {
       saveSearch(finalSearchTerm)
       setShowSuggestions(false)
-      setIsSearchFocused(false)
+      setIsSearchFocused(false)
+
       navigate(`/packages?search=${encodeURIComponent(finalSearchTerm)}`)
     }
-  }
+  }
+
   const handleSuggestionClick = (suggestion) => {
     setSearchQuery(suggestion.searchText)
     handleSearch(null, suggestion.searchText)
-  }
+  }
+
   const handleSearchFocus = () => {
     setIsSearchFocused(true)
     setShowSuggestions(true)
-  }
+  }
+
   const handleKeyDown = (e) => {
     if (!showSuggestions) return
     const totalSuggestions = filteredSuggestions.length
@@ -245,7 +279,8 @@ const Home = () => {
       default:
         setSelectedSuggestionIndex(-1) // Reset selection when typing
     }
-  }
+  }
+
   const handleSearchChange = (e) => {
     const value = e.target.value
     setSearchQuery(value)
@@ -336,7 +371,7 @@ const Home = () => {
                     alt={destination.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     onError={(e) => {
-                      e.target.src = `https://via.placeholder.com/400x500/1e293b/64748b?text=${destination.name}`
+                      e.target.src = '/css/images/package.jpg'
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
