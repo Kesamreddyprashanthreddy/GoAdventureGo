@@ -27,6 +27,8 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }))
 
+let authLimiter = null
+
 if (process.env.NODE_ENV === 'production') {
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -37,14 +39,13 @@ if (process.env.NODE_ENV === 'production') {
   })
   app.use('/api/', limiter)
 
-  const authLimiter = rateLimit({
+  authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 50, // Limit each IP to 50 requests per windowMs for auth
     message: 'Too many authentication attempts, please try again later.',
     standardHeaders: true,
     legacyHeaders: false,
   })
-  app.use('/api/auth/', authLimiter)
 } else {
   console.log('⚠️ Rate limiting disabled for development')
 }
@@ -53,10 +54,13 @@ const corsOptions = {
   origin: [
     process.env.CLIENT_URL || 'http://localhost:3001',
     'http://localhost:3000',
-    'http://localhost:3001',
+    'http://localhost:3001', 
     'http://localhost:5173',
-    'http://localhost:5174'  // Add port 5174 for current React app
-  ],
+    'http://localhost:5174',  // Add port 5174 for current React app
+    // Add your production domains here
+    process.env.PRODUCTION_DOMAIN,
+    process.env.CORS_ORIGIN
+  ].filter(Boolean), // Remove undefined values
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
@@ -103,27 +107,45 @@ app.get('/api/health', (req, res) => {
   })
 })
 
-app.get('/', (req, res) => {
-  res.json({
-    message: 'GoAdventureGo API Server',
-    version: '1.0.0',
-    status: 'Running',
-    endpoints: {
-      auth: '/api/auth',
-      users: '/api/users',
-      packages: '/api/packages',
-      bookings: '/api/bookings',
-      health: '/api/health'
+// Serve static files from the React app build directory in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../dist')))
+  
+  // Catch all handler: send back React's index.html file for any non-API routes
+  app.get('*', (req, res) => {
+    // Skip API routes
+    if (req.path.startsWith('/api')) {
+      return res.status(404).json({
+        success: false,
+        message: `API route ${req.originalUrl} not found`
+      })
     }
+    
+    res.sendFile(path.join(__dirname, '../dist/index.html'))
   })
-})
+} else {
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'GoAdventureGo API Server',
+      version: '1.0.0',
+      status: 'Running',
+      endpoints: {
+        auth: '/api/auth',
+        users: '/api/users',
+        packages: '/api/packages',
+        bookings: '/api/bookings',
+        health: '/api/health'
+      }
+    })
+  })
 
-app.all('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route ${req.originalUrl} not found`
+  app.all('*', (req, res) => {
+    res.status(404).json({
+      success: false,
+      message: `Route ${req.originalUrl} not found`
+    })
   })
-})
+}
 
 app.use(errorHandler)
 

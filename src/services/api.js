@@ -1,11 +1,12 @@
 import axios from 'axios'
 
 const getApiBaseUrl = () => {
-  // Force development API URL for debugging
+  // In production, use relative URL (same domain as frontend)
   if (import.meta.env.PROD) {
     return '/api'
   }
-
+  
+  // In development, use localhost
   return 'http://localhost:5000/api'
 }
 
