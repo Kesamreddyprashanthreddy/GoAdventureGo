@@ -1,0 +1,51 @@
+{
+  "name": "go-adventure-go",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "server": "cd server && npm run dev",
+    "server:prod": "cd server && npm start",
+    "start:prod": "npm run build && npm run server:prod",
+    "deploy": "npm run build && docker-compose up -d --build",
+    "health-check": "curl -f http://localhost:5000/api/health || exit 1",
+    "check-server": "node check-server.mjs",
+    "fix-server": "node check-server.mjs",
+    "kill-port": "npx kill-port 3000 3001 5173 8080",
+    "dev:auto": "node check-server.js"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
+    "axios": "^1.10.0",
+    "clsx": "^2.0.0",
+    "framer-motion": "^10.16.0",
+    "lucide-react": "^0.294.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.5.2",
+    "react-router-dom": "^6.20.0",
+    "tailwind-merge": "^2.0.0",
+    "three": "^0.158.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "kill-port": "^2.0.1",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "vite": "^5.0.8"
+  }
+}

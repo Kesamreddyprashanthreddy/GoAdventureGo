@@ -1,0 +1,448 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    @apply bg-slate-900 text-slate-50 transition-colors duration-300;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* Root color variables for dynamic theming */
+  :root {
+    --color-primary: 45 212 191; /* teal-400 */
+    --color-accent: 139 92 246; /* violet-500 */
+    --color-success: 34 197 94; /* green-500 */
+    --color-warning: 245 158 11; /* amber-500 */
+    --color-error: 239 68 68; /* red-500 */
+  }
+}
+
+@layer components {
+  /* Navigation Components */
+  .nav-glass {
+    @apply bg-slate-800/80 backdrop-blur-xl border border-slate-700 shadow-xl;
+  }
+
+  .nav-dark {
+    @apply bg-slate-800/50 backdrop-blur-xl border border-slate-700 shadow-2xl;
+  }
+
+  /* Button Components */
+  .btn-primary {
+    @apply bg-gradient-to-r from-teal-400 to-teal-600 hover:from-teal-500 hover:to-teal-700 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105;
+  }
+
+  .btn-secondary {
+    @apply bg-gradient-to-r from-violet-400 to-violet-600 hover:from-violet-500 hover:to-violet-700 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105;
+  }
+
+  .btn-ghost {
+    @apply bg-slate-800 hover:bg-slate-700 text-slate-50 border border-slate-600 hover:border-slate-500 px-6 py-3 rounded-xl transition-all duration-300;
+  }
+
+  .btn-outline-primary {
+    @apply border-2 border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-white px-6 py-3 rounded-xl transition-all duration-300;
+  }
+
+  .btn-outline-secondary {
+    @apply border-2 border-violet-400 text-violet-400 hover:bg-violet-400 hover:text-white px-6 py-3 rounded-xl transition-all duration-300;
+  }
+
+  .neon-button {
+    @apply bg-gradient-to-r from-teal-400 to-cyan-400 hover:from-teal-500 hover:to-cyan-500 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105;
+    box-shadow: 0 0 20px rgba(45, 212, 191, 0.3);
+  }
+
+  .neon-button:hover {
+    box-shadow: 0 0 30px rgba(45, 212, 191, 0.6);
+  }
+
+  .glass-button {
+    @apply bg-slate-800/30 backdrop-blur-xl border border-slate-600/50 text-slate-200 hover:text-white hover:bg-slate-700/40 font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105;
+  }
+
+  /* Card Components */
+  .card {
+    @apply bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:scale-105 hover:border-teal-500;
+  }
+
+  /* Link Components */
+  .link {
+    @apply text-slate-300 hover:text-teal-400 px-4 py-2 rounded-lg transition-colors duration-300;
+  }
+
+  .link-active {
+    @apply text-teal-400 bg-teal-900/20;
+  }
+
+  /* Text Gradients */
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-teal-400 via-teal-500 to-emerald-400 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-secondary {
+    @apply bg-gradient-to-r from-violet-400 via-violet-500 to-violet-600 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-mixed {
+    @apply bg-gradient-to-r from-violet-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent;
+  }
+
+  /* Form Components */
+  .input {
+    @apply w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-xl text-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-300;
+  }
+
+  .input-error {
+    @apply border-red-400 focus:border-red-400 focus:ring-red-400;
+  }
+
+  .input-success {
+    @apply border-green-400 focus:border-green-400 focus:ring-green-400;
+  }
+
+  /* Loading Components */
+  .skeleton {
+    @apply animate-pulse bg-slate-700 rounded;
+  }
+
+  /* Background Patterns */
+  .bg-pattern {
+    @apply bg-gradient-to-br from-teal-500/10 via-violet-500/10 to-emerald-500/10;
+  }
+
+  /* Section Components */
+  .section {
+    @apply py-20 px-4;
+  }
+
+  .section-header {
+    @apply text-center mb-16;
+  }
+
+  .container {
+    @apply max-w-7xl mx-auto;
+  }
+
+  /* Progress Components */
+  .progress-bar {
+    @apply bg-slate-700;
+  }
+
+  .progress-fill {
+    @apply bg-teal-400 rounded-full;
+  }
+
+  .progress-animated {
+    @apply bg-teal-500;
+  }
+}
+
+@layer utilities {
+  /* Custom Utilities */
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .backdrop-blur-glass {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-bounce-slow {
+    animation: bounce 2s infinite;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Background gradients */
+  .bg-hero {
+    @apply bg-gradient-to-r from-slate-900 to-slate-800;
+  }
+
+  .bg-hero-dark {
+    @apply bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800/80;
+  }
+
+  /* Glass morphism effects */
+  .glass {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .glass-dark {
+    @apply bg-slate-800/20 backdrop-blur-xl border border-slate-700/30 shadow-2xl;
+  }
+
+  .glass-light {
+    @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl;
+  }
+
+  .glass-border {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Hover effects */
+  .hover-lift {
+    transition: transform 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+  }
+
+  /* Text effects */
+  .text-glow {
+    @apply bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent;
+  }
+
+  /* Special backgrounds */
+  .bg-dots {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .bg-mesh {
+    background-image: 
+      linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  }
+
+  .frosted-glass {
+    @apply bg-white/15 border-blue-400/50;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
+
+/* Custom Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(45, 212, 191, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(45, 212, 191, 0.6); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section {
+    @apply py-12 px-4;
+  }
+  
+  .container {
+    @apply px-4;
+  }
+  
+  .card {
+    @apply p-4;
+  }
+  
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost,
+  .btn-outline-primary,
+  .btn-outline-secondary {
+    @apply px-4 py-2 text-sm;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    @apply py-8 px-2;
+  }
+  
+  .card {
+    @apply p-3 rounded-xl;
+  }
+  
+  .input {
+    @apply px-3 py-2 text-sm;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .glass {
+    background: rgba(15, 23, 42, 0.8);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles for better accessibility */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid rgba(45, 212, 191, 0.6);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    color: black !important;
+    background: white !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid white;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    border: 2px solid white;
+  }
+}
+
+/* Chatbot Specific Styles */
+.chatbot-container {
+  @apply bg-slate-800/10 backdrop-blur-xl border border-slate-600/30 shadow-2xl;
+}
+
+.message-user {
+  @apply bg-teal-600 text-white;
+}
+
+.message-bot {
+  @apply bg-slate-700 text-slate-100;
+}
+
+.typing-indicator {
+  @apply flex space-x-1;
+}
+
+.typing-dot {
+  @apply w-2 h-2 bg-slate-400 rounded-full animate-pulse;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 150ms;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 300ms;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 640px) {
+  .hero-text {
+    @apply text-4xl;
+  }
+  
+  .hero-subtitle {
+    @apply text-lg;
+  }
+  
+  .nav-glass {
+    @apply px-3 py-2;
+  }
+  
+  .mobile-menu {
+    @apply absolute top-full left-0 right-0 bg-slate-800/95 backdrop-blur-xl border-t border-slate-700 shadow-xl;
+  }
+  
+  .mobile-menu-item {
+    @apply block px-4 py-3 text-slate-200 hover:text-teal-400 hover:bg-slate-700/50 transition-colors;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .hover-lift:hover {
+    transform: none;
+  }
+  
+  .card-hover:hover {
+    transform: none;
+  }
+  
+  button,
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost {
+    @apply active:scale-95;
+  }
+}
