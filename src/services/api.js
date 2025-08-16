@@ -6,12 +6,17 @@ const getApiBaseUrl = () => {
     return import.meta.env.VITE_API_URL
   }
   
+  // In development, use proxy path (Vite will proxy to the backend)
+  if (import.meta.env.DEV) {
+    return '/api'
+  }
+  
   // In production, use relative URL (same domain as frontend)
   if (import.meta.env.PROD) {
     return '/api'
   }
   
-  // In development, use localhost
+  // Fallback to localhost for development
   return 'http://localhost:5000/api'
 }
 
