@@ -157,45 +157,41 @@ app.get('/api/health', (req, res) => {
   })
 })
 
-// Serve static files from the React app build directory in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../dist')))
-  
-  // Catch all handler: send back React's index.html file for any non-API routes
-  app.get('*', (req, res) => {
-    // Skip API routes
-    if (req.path.startsWith('/api')) {
-      return res.status(404).json({
-        success: false,
-        message: `API route ${req.originalUrl} not found`
-      })
+// API-only server - Frontend is deployed separately to Netlify
+app.get('/', (req, res) => {
+  res.json({
+    message: 'GoAdventureGo API Server',
+    version: '1.0.0',
+    status: 'Running',
+    mode: 'API Only - Frontend on Netlify',
+    endpoints: {
+      auth: '/api/auth',
+      users: '/api/users',
+      packages: '/api/packages',
+      bookings: '/api/bookings',
+      health: '/api/health'
     }
-    
-    res.sendFile(path.join(__dirname, '../dist/index.html'))
   })
-} else {
-  app.get('/', (req, res) => {
-    res.json({
-      message: 'GoAdventureGo API Server',
-      version: '1.0.0',
-      status: 'Running',
-      endpoints: {
-        auth: '/api/auth',
-        users: '/api/users',
-        packages: '/api/packages',
-        bookings: '/api/bookings',
-        health: '/api/health'
-      }
-    })
-  })
+})
 
-  app.all('*', (req, res) => {
-    res.status(404).json({
+// Handle all non-API routes with proper 404
+app.all('*', (req, res) => {
+  // Skip API routes - let them fall through to 404
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({
       success: false,
-      message: `Route ${req.originalUrl} not found`
+      message: `API route ${req.originalUrl} not found`
     })
+  }
+  
+  // For non-API routes, redirect to frontend
+  res.status(404).json({
+    success: false,
+    message: 'This is an API-only server. Frontend is available at your Netlify URL.',
+    frontend: process.env.CLIENT_URL || 'https://your-netlify-url.netlify.app',
+    api: `${req.protocol}://${req.get('host')}/api`
   })
-}
+})
 
 app.use(errorHandler)
 
