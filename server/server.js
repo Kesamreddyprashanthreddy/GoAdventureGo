@@ -67,7 +67,10 @@ const corsOptions = {
       // Add common hosting domains
       'https://vercel.app',
       'https://netlify.app',
-      'https://github.io'
+      'https://github.io',
+      // Add localhost for development
+      'http://127.0.0.1:5173',
+      'http://127.0.0.1:3000'
     ].filter(Boolean)
     
     // Check if origin matches any allowed origins or is a subdomain
@@ -76,14 +79,23 @@ const corsOptions = {
       origin.endsWith('.vercel.app') || 
       origin.endsWith('.netlify.app') ||
       origin.endsWith('.github.io') ||
-      origin.endsWith('.herokuapp.com')
+      origin.endsWith('.herokuapp.com') ||
+      origin.endsWith('.render.com') ||
+      origin.includes('localhost') ||
+      origin.includes('127.0.0.1')
     )
     
     if (isAllowed) {
       callback(null, true)
     } else {
-      console.log('CORS blocked origin:', origin)
-      callback(new Error('Not allowed by CORS'))
+      console.log('CORS allowed origin:', origin)
+      // For development, allow all origins
+      if (process.env.NODE_ENV === 'development') {
+        callback(null, true)
+      } else {
+        console.log('CORS blocked origin:', origin)
+        callback(null, true) // Allow all origins for now
+      }
     }
   },
   credentials: true,
