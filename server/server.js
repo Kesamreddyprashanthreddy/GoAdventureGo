@@ -22,6 +22,19 @@ const __dirname = path.dirname(__filename)
 
 // Configure dotenv to load from server directory
 dotenv.config({ path: path.join(__dirname, '.env') })
+
+// Validate required environment variables
+const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET']
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName])
+
+if (missingEnvVars.length > 0) {
+  console.error('❌ Missing required environment variables:', missingEnvVars.join(', '))
+  console.error('Please set these variables in your environment or .env file')
+  process.exit(1)
+}
+
+console.log('✅ All required environment variables are set')
+
 const app = express()
 
 app.use(helmet({
