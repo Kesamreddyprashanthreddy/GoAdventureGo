@@ -1,0 +1,10 @@
+{
+  "name": "goadventurego-render-build",
+  "version": "1.0.0",
+  "description": "Build script for Render deployment",
+  "scripts": {
+    "build": "npm install && npm run build && echo 'Build completed successfully' && ls -la dist/",
+    "verify": "test -f dist/index.html && echo 'index.html found' || (echo 'index.html missing' && exit 1)",
+    "deploy": "npm run build && npm run verify"
+  }
+}
