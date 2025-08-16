@@ -13,11 +13,6 @@
   to = "/index.html"
   status = 200
 
-# Environment variables (can also be set in Netlify dashboard)
-[build.environment]
-  VITE_API_URL = "https://goadventurego-api.onrender.com/api"
-  NODE_ENV = "production"
-
 # Headers for better security and performance
 [[headers]]
   for = "/*"
