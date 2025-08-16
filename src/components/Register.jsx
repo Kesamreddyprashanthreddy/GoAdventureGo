@@ -18,13 +18,15 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
+
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -46,8 +48,6 @@ const Register = () => {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters long';
-    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-      newErrors.password = 'Password must contain at least one lowercase letter, one uppercase letter, and one number';
     }
     if (!formData.confirmPassword.trim()) {
       newErrors.confirmPassword = 'Please confirm your password';
@@ -69,11 +69,13 @@ const Register = () => {
     setLoading(true);
     setErrors({});
     try {
-      const { confirmPassword, phone, ...registerData } = formData;
+      const { confirmPassword, phone, ...registerData } = formData;
+
       const dataToSend = {
         ...registerData,
         phoneNumber: phone || '' // Ensure phoneNumber is always a string
-      };
+      };
+
       if (!dataToSend.firstName || !dataToSend.lastName || !dataToSend.email || !dataToSend.password) {
         throw new Error('Missing required fields');
       }
@@ -88,7 +90,8 @@ const Register = () => {
       const result = await register(dataToSend);
       console.log('📊 Registration result:', result);
       if (result.success) {
-        toast.success('Registration successful! Welcome to GoAdventure!');
+        toast.success('Registration successful! Welcome to GoAdventure!');
+
         setTimeout(() => {
           navigate('/');
         }, 1500);

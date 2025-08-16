@@ -97,28 +97,36 @@ const userSchema = new mongoose.Schema({
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
-})
-userSchema.index({ email: 1 })
-userSchema.index({ createdAt: -1 })
+})
+
+// Removed duplicate index for email; 'unique: true' is set in schema
+userSchema.index({ createdAt: -1 })
+
 userSchema.virtual('fullName').get(function() {
   return `${this.firstName} ${this.lastName}`
-})
+})
+
 userSchema.virtual('isLocked').get(function() {
   return !!(this.lockUntil && this.lockUntil > Date.now())
-})
-userSchema.pre('save', async function(next) {
+})
+
+userSchema.pre('save', async function(next) {
+
   if (!this.isModified('password')) return next()
-  try {
+  try {
+
     const salt = await bcrypt.genSalt(12)
     this.password = await bcrypt.hash(this.password, salt)
     next()
   } catch (error) {
     next(error)
   }
-})
+})
+
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password)
-}
+}
+
 userSchema.methods.generateAuthToken = function() {
   return jwt.sign(
     { 
@@ -129,23 +137,28 @@ userSchema.methods.generateAuthToken = function() {
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRE || '7d' }
   )
-}
+}
+
 userSchema.methods.generateRefreshToken = function() {
   const refreshToken = jwt.sign(
     { userId: this._id },
     process.env.JWT_SECRET + 'refresh',
     { expiresIn: '30d' }
-  )
+  )
+
   this.refreshTokens.push({
     token: refreshToken,
     createdAt: new Date()
-  })
+  })
+
   if (this.refreshTokens.length > 5) {
     this.refreshTokens = this.refreshTokens.slice(-5)
   }
   return refreshToken
-}
-userSchema.methods.incLoginAttempts = function() {
+}
+
+userSchema.methods.incLoginAttempts = function() {
+
   if (this.lockUntil && this.lockUntil < Date.now()) {
     return this.updateOne({
       $set: {
@@ -156,12 +169,14 @@ userSchema.methods.incLoginAttempts = function() {
       }
     })
   }
-  const updates = { $inc: { loginAttempts: 1 } }
+  const updates = { $inc: { loginAttempts: 1 } }
+
   if (this.loginAttempts + 1 >= 5 && !this.isLocked) {
     updates.$set = { lockUntil: Date.now() + 2 * 60 * 60 * 1000 } // Lock for 2 hours
   }
   return this.updateOne(updates)
-}
+}
+
 userSchema.methods.resetLoginAttempts = function() {
   return this.updateOne({
     $unset: {
@@ -169,24 +184,32 @@ userSchema.methods.resetLoginAttempts = function() {
       lockUntil: 1
     }
   })
-}
-userSchema.statics.findByCredentials = async function(email, password) {
+}
+
+userSchema.statics.findByCredentials = async function(email, password) {
+
   const user = await this.findOne({ email }).select('+password')
   if (!user) {
     throw new Error('Invalid login credentials')
-  }
-  if (user.isLocked) {
+  }
+
+  if (user.isLocked) {
+
     await user.incLoginAttempts()
     throw new Error('Account temporarily locked due to too many failed login attempts')
-  }
+  }
+
   const isMatch = await user.comparePassword(password)
-  if (!isMatch) {
+  if (!isMatch) {
+
     await user.incLoginAttempts()
     throw new Error('Invalid login credentials')
-  }
+  }
+
   if (user.loginAttempts > 0) {
     await user.resetLoginAttempts()
-  }
+  }
+
   user.lastLogin = new Date()
   await user.save()
   return user

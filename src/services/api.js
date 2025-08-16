@@ -1,6 +1,11 @@
 import axios from 'axios'
 
 const getApiBaseUrl = () => {
+  // Check for environment variable first
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL
+  }
+  
   // In production, use relative URL (same domain as frontend)
   if (import.meta.env.PROD) {
     return '/api'

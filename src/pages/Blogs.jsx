@@ -228,7 +228,7 @@ const Blogs = () => {
                       alt={blog.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       onError={(e) => {
-                        e.target.src = '/css/images/blog.png'
+                        e.target.src = 'https://via.placeholder.com/400x300/1e293b/64748b?text=Blog+Image'
                       }}
                     />
                     {}

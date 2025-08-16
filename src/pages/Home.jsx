@@ -371,7 +371,7 @@ const Home = () => {
                     alt={destination.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     onError={(e) => {
-                      e.target.src = '/css/images/package.jpg'
+                      e.target.src = `https://via.placeholder.com/400x500/1e293b/64748b?text=${destination.name}`
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

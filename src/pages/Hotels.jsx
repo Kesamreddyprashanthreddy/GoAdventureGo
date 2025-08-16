@@ -44,7 +44,7 @@ const HotelCard = React.memo(({ hotel, index, onToggleFavorite, onBooking, favor
     };
   }, [isMobile, index]);
   const handleImageError = useCallback((e) => {
-    e.target.src = '/css/images/package.jpg';
+    e.target.src = 'https://via.placeholder.com/400x400/1e293b/64748b?text=Hotel+Image';
   }, []);
   const handleToggleFavorite = useCallback(() => {
     onToggleFavorite(hotel.id);

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AuthProvider } from './contexts/AuthContext'
+import { preloadImages } from './utils/imageLoader'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ModernAIAssistant from './components/ModernAIAssistant'
@@ -20,6 +21,11 @@ import Register from './components/Register'
 import MyBookings from './pages/MyBookings'
 import Profile from './pages/Profile'
 function App() {
+  useEffect(() => {
+    // Preload critical images when app starts
+    preloadImages();
+  }, []);
+
   return (
     <AuthProvider>
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white">

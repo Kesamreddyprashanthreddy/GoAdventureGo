@@ -209,7 +209,7 @@ const Flight = React.memo(() => {
         category: 'flights',
         from: formData.departure,
         to: formData.arrival,
-        image: '/css/images/package.jpg',
+        image: 'https://via.placeholder.com/400x300/1e293b/64748b?text=Flight+Booking',
         description: `${flight.airline} flight from ${formData.departure} to ${formData.arrival}`,
         rating: 4.5,
         dates: {

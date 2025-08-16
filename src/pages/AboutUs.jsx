@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { IMAGES } from '../utils/images'
 import { 
   Users, 
   Lightbulb, 
@@ -91,11 +92,11 @@ const AboutUs = () => {
           >
             <div className="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-white/20 shadow-2xl backdrop-blur-sm">
               <img
-                src="/css/images/mohit.png"
+                src={IMAGES.MOHIT}
                 alt="Team"
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.target.src = '/css/images/logo.png'
+                  e.target.src = 'https://via.placeholder.com/200x200/1e293b/64748b?text=Team'
                 }}
               />
             </div>

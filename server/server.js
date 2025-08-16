@@ -17,10 +17,11 @@ import paymentRoutes from './routes/payments.js'
 
 import { errorHandler } from './middleware/errorHandler.js'
 
-dotenv.config()
-
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+// Configure dotenv to load from server directory
+dotenv.config({ path: path.join(__dirname, '.env') })
 const app = express()
 
 app.use(helmet({
@@ -51,16 +52,40 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const corsOptions = {
-  origin: [
-    process.env.CLIENT_URL || 'http://localhost:3001',
-    'http://localhost:3000',
-    'http://localhost:3001', 
-    'http://localhost:5173',
-    'http://localhost:5174',  // Add port 5174 for current React app
-    // Add your production domains here
-    process.env.PRODUCTION_DOMAIN,
-    process.env.CORS_ORIGIN
-  ].filter(Boolean), // Remove undefined values
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true)
+    
+    const allowedOrigins = [
+      process.env.CLIENT_URL || 'http://localhost:3001',
+      'http://localhost:3000',
+      'http://localhost:3001', 
+      'http://localhost:5173',
+      'http://localhost:5174',
+      process.env.PRODUCTION_DOMAIN,
+      process.env.CORS_ORIGIN,
+      // Add common hosting domains
+      'https://vercel.app',
+      'https://netlify.app',
+      'https://github.io'
+    ].filter(Boolean)
+    
+    // Check if origin matches any allowed origins or is a subdomain
+    const isAllowed = allowedOrigins.some(allowedOrigin => 
+      origin === allowedOrigin || 
+      origin.endsWith('.vercel.app') || 
+      origin.endsWith('.netlify.app') ||
+      origin.endsWith('.github.io') ||
+      origin.endsWith('.herokuapp.com')
+    )
+    
+    if (isAllowed) {
+      callback(null, true)
+    } else {
+      console.log('CORS blocked origin:', origin)
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],

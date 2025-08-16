@@ -39,7 +39,7 @@ const PackageCard = React.memo(({ pkg, index, onToggleFavorite, onBooking, favor
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         loading="lazy"
         onError={(e) => {
-          e.target.src = '/css/images/package.jpg'
+          e.target.src = 'https://via.placeholder.com/400x400/1e293b/64748b?text=Adventure+Package'
         }}
       />
       <motion.button
@@ -418,7 +418,7 @@ const Packages = React.memo(() => {
           alt={pkg.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" // Reduced duration
           onError={(e) => {
-            e.target.src = '/css/images/package.jpg'
+            e.target.src = 'https://via.placeholder.com/400x400/1e293b/64748b?text=Adventure+Package'
           }}
         />
         {}

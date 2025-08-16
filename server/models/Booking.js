@@ -208,38 +208,45 @@ const bookingSchema = new mongoose.Schema({
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
-})
-bookingSchema.index({ bookingId: 1 })
+})
+
+// Removed duplicate index for bookingId; 'unique: true' is set in schema
 bookingSchema.index({ user: 1, createdAt: -1 })
 bookingSchema.index({ package: 1 })
 bookingSchema.index({ status: 1 })
 bookingSchema.index({ 'travelDates.startDate': 1 })
-bookingSchema.index({ createdAt: -1 })
+bookingSchema.index({ createdAt: -1 })
+
 bookingSchema.pre('save', async function(next) {
-  if (this.isNew) {
+  if (this.isNew) {
+
     const timestamp = Date.now().toString(36)
     const random = Math.random().toString(36).substring(2, 8)
     this.bookingId = `GA${timestamp}${random}`.toUpperCase()
   }
   next()
-})
+})
+
 bookingSchema.virtual('totalTravelers').get(function() {
   return this.travelers.length
-})
+})
+
 bookingSchema.virtual('duration').get(function() {
   const startDate = new Date(this.travelDates.startDate)
   const endDate = new Date(this.travelDates.endDate)
   const diffTime = Math.abs(endDate - startDate)
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
   return diffDays
-})
+})
+
 bookingSchema.virtual('daysUntilTravel').get(function() {
   const today = new Date()
   const startDate = new Date(this.travelDates.startDate)
   const diffTime = startDate - today
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
   return diffDays > 0 ? diffDays : 0
-})
+})
+
 bookingSchema.methods.calculateCancellationCharges = function() {
   const daysUntilTravel = this.daysUntilTravel
   const totalAmount = this.pricing.totalPrice
@@ -262,7 +269,8 @@ bookingSchema.methods.calculateCancellationCharges = function() {
     cancellationCharge,
     refundAmount: Math.max(refundAmount, 0)
   }
-}
+}
+
 bookingSchema.methods.addCommunication = function(type, subject, message) {
   this.communication.push({
     type,
@@ -270,7 +278,8 @@ bookingSchema.methods.addCommunication = function(type, subject, message) {
     message,
     timestamp: new Date()
   })
-}
+}
+
 bookingSchema.statics.getBookingStats = async function(userId = null) {
   const matchStage = userId ? { user: new mongoose.Types.ObjectId(userId) } : {}
   const stats = await this.aggregate([

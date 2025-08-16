@@ -373,7 +373,7 @@ Your ${bookingTypeText.toLowerCase()} is confirmed!`)
                     alt={selectedPackage.name}
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.target.src = '/css/images/package.jpg'
+                      e.target.src = 'https://via.placeholder.com/400x300/1e293b/64748b?text=Adventure+Package'
                     }}
                   />
                   <div className="absolute top-4 left-4 bg-blue-500/90 text-white px-3 py-1 rounded-full text-sm font-semibold">
