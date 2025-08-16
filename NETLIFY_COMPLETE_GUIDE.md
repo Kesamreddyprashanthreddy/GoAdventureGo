@@ -27,6 +27,7 @@
 ⚙️ Advanced Settings → Environment Variables:
    VITE_API_URL = https://goadventurego.onrender.com/api
    NODE_ENV = production
+   NODE_VERSION = 20
 ```
 
 ### Step 4: Deploy
